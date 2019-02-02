@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar color="twitter">
+    <ion-title>{{friendPseudo}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-avatar item-start>
+          <img style="object-fit: cover;border-radius: 100px;width:50px;height:50px;" *ngIf="friendAvatar!==undefined" src="{{friendAvatar}}">
+          <img style="object-fit: cover;border-radius: 100px;width:50px;height:50px;" *ngIf="friendAvatar===undefined" src="assets/img/user-img.png">
+        </ion-avatar>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngFor="let message of friendChatLiveMsg; let i=index">
+    <p *ngIf="!message.me" left style="border-radius: 10px;background-color:#00aced;margin:10px;padding:10px">
+      <small><i>Posted : {{message.date}}</i></small><br>
+      {{message.msg}}
+    </p>
+    <p *ngIf="message.me" right style="border-radius: 10px;background-color:#e0e0e0;margin:10px;padding:10px">
+      <small><i>Posted : {{message.date}}</i></small><br>
+      {{message.msg}}
+    </p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <form [formGroup]="form" center bottom (ngSubmit)="post(form.value)">
+      <div style="display:flex;">
+        <ion-item no-padding style="border-color: #00aced;border-width: 1px; width:90%;border-radius: 100px;">
+          <ion-textarea  cols="20" style="border-radius: 100px;" formControlName='comm' style placeholder='Ecrivez votre message'></ion-textarea>
+        </ion-item>
+        <ion-item no-padding style="border-width: 1px;width:10%">
+          <button clear color="twitter" ion-button ><ion-icon style="width:100%;height:100%;" name="paper-plane"></ion-icon></button>
+        </ion-item>
+      </div>
+    </form>
+  </ion-toolbar>
+</ion-footer>

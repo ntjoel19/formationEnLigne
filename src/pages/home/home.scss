@@ -1,0 +1,105 @@
+page-home {
+    [menuToggle]{
+        display: inline-block !important;
+    }
+}
+.card-background-page {
+  ion-card {
+    position: relative;
+    width: 100%;
+    border-radius: 25px;
+    img{
+      width: 100% !important;
+      height: 121px;
+      object-fit: cover;
+      -o-object-fit: cover;
+    }
+  }
+  .card-title {
+    position: absolute;
+    top: calc((121px - 80px)  / 2);
+    width: 100%;
+    .item-md{
+      background-color: transparent;
+      .point{
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: color($colors,twitter);
+        &[item-start]{
+            margin: -8px 10px 10px 4px;
+        }
+      }
+      .pointDanger{
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: color($colors,danger);
+        &[item-start]{
+            margin: -8px 10px 10px 4px;
+        }
+      }
+    }
+    h2 , p{
+      margin: 0;
+      //color: color($colors,light);
+      color : dimgray;
+    }
+    h2{
+      font-size: 2.5rem;
+    }
+    p{
+      font-family: "appFont";
+      margin-top: -4px;
+    }
+  }
+}
+.wide-as-needed {
+  overflow: scroll;
+  white-space: nowrap;
+}
+.scroll { 
+  min-width: 100%;
+}
+.bar.bar-loading {
+  display: block;
+  height: 24px;
+  
+  /* starts right below a normal header */
+  top: 44px;
+  
+  /* make the text centered vertically and horizontally */
+  text-align: center;
+  padding: 0;
+  line-height: 24px;
+
+  /* transition 'sliding down' (check below)*/
+  transition: 200ms all;
+}
+  
+  
+/* 
+  * make the content's top changes animate.
+  * might not always look good, but looks
+  * good when our loader is added & removed
+  */
+.has-header {
+  transition: 200ms top;
+}
+.has-header.has-loading {
+  /* 44px (header) + 24px */
+  top: 68px;
+}
+
+/* make loading bar slide up/down */
+.bar-loading.ng-enter,
+.bar-loading.ng-leave.ng-leave-active {
+  height: 0;
+  border-width: 0px;
+}
+.bar-loading.ng-enter.ng-enter-active,
+.bar-loading.ng-leave {
+  height: 24px;
+  border-width: 1px;
+}
+  

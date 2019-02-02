@@ -1,0 +1,38 @@
+.app-list{
+    padding-bottom: 15px;
+    border-bottom: 1px solid color($colors,grayColor) !important;
+    &:last-child{
+        border-bottom: none !important;
+    }
+    .item-block{
+        min-height: 6rem;
+        border-bottom: none !important;
+    }
+    .sub-list{
+        height: 20px;
+        min-height: 20px;
+        padding-left: 8px;
+        ion-icon{
+            font-size: 1.5rem;
+            min-height: 1.5rem;
+            &[item-start]{
+                margin-top: 0px;
+                margin-bottom: 1px;
+                margin-right: 0;
+            }
+        }
+        ion-label{
+            font-size: 1.4rem;
+            margin: 0 8px 0 0;
+            font-family: "Roboto", "Helvetica Neue", sans-serif;
+        }
+    }
+}
+.price{
+    display: inline-block;
+    border: 1px solid color($colors,dark);
+    border-radius: 2px;
+    padding: 5px 10px;
+    font-size: 2rem;
+    margin: 10px 0 0 56px;
+}

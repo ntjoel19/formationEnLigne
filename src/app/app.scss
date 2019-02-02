@@ -1,0 +1,171 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+.button-md-primary{
+    color: color($colors,light);
+}
+.bar-button-menutoggle-md , .back-button-md{
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    text-align: center;
+    color: color($colors,dark) !important;
+    background-color: color($colors,light);
+    ion-icon{
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center;
+    }
+}
+.back-button-icon-md{
+    font-size: 2.1rem;
+}
+.bar-button-md[icon-only]{
+    margin-right: 3px;
+}
+.toolbar{
+    align-items: flex-start;
+    padding: 15px 10px;
+}
+.toolbar-title{
+    white-space: normal;
+}
+.toolbar-title-md{
+    color: #000 !important;
+    padding-top: 4px;
+}
+ion-fab{
+    &[bottom]{
+        bottom: 50px;
+    }
+    &[right]{
+        right: 15px;
+    }
+}
+.fab-md{
+    color: color($colors,light) !important;
+}
+.alert-md{
+    .alert-input{
+        border-radius: 0 !important;
+    }
+    .alert-title{
+        font-size: 17px;
+    }
+}
+.radio-md{
+    margin: 9px 0px 9px 0;
+    .radio-icon{
+        border-color: color($colors,twitter);
+    }
+}
+.item-radio-checked.item-md{
+    ion-label{
+        color: color($colors,dark);
+    }
+}
+.item-md{
+    ion-avatar{
+        img{
+            object-fit: cover;
+            border-radius: 100px
+        }
+    }
+}
+.bar-button-md[icon-only]{
+    ion-icon{
+        font-size: 1.4em;
+    }   
+}
+// App IOS Plateform Sass
+// --------------------------------------------------
+.statusbar-padding{
+    &.app-bg{
+        .scroll-content{
+            padding-top: 0 !important;
+        }
+        .form-content{
+            padding-top: 20px;
+        }
+    }
+     .sub-header{
+         top: 110px !important;
+     }
+     .tabs-header{
+         top: 77px !important;
+     }
+}
+.list-header{
+    .toolbar-md.statusbar-padding{
+        min-height: calc(55px + 20px) !important;
+    }
+}
+// App Menu Sass
+// --------------------------------------------------
+ion-menu{
+    .menu-header{
+        @extend %cover;
+        min-height: 160px;
+        position: relative;
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+, Chrome26+, Opera12+, Safari7+ */
+        }
+    }
+    ion-title{
+        position: absolute;
+        bottom: 15px;
+    }
+    .toolbar-title-md{
+        font-family: "appFont";
+        font-size: 1.3rem;
+        color: color($colors,light) !important;
+    }
+     .item-md{
+        ion-icon{
+            min-height: 2.1rem;
+            font-size: 2.1rem;
+            &[item-start] + .item-inner{
+                margin-left: 10px;
+            }
+        }
+    }
+    .label-md{
+        font-weight: 500;
+    }
+}
+.courses-section{
+    &.card-background-page{
+        h5{
+            font-size: 1.4rem;
+            margin: 0 16px 10px 16px;
+            text-transform: capitalize;
+            color: darken(color($colors,grayColor),8%);
+        }
+        ion-card{
+            margin-bottom: 5px;
+            &:nth-last-of-type(1){
+                margin-bottom: 0;
+            }
+            img{
+                height: 80px;
+            }
+        }
+        .card-title{
+            top: 7.5px;
+            h2{
+                font-size: 2rem;
+            }
+        }
+    }
+}

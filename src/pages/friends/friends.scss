@@ -1,0 +1,43 @@
+page-friends{
+    .searchbar-md{
+        margin-top: -35px;
+        padding: 9px 16px;
+        transition: all .35s ease-in-out;
+        -webkit-transition: all .35s ease-in-out;
+        .searchbar-input{
+            height: 6.2rem;
+        }
+        .searchbar-search-icon{
+            background-size: 25px;
+            top: 20px;
+        }
+    }
+    .sub-header{
+        position: fixed;
+        top: 95px;
+        z-index: 100000;
+        padding: 0;
+        transition: all .35s ease-in-out;
+        -webkit-transition: all .35s ease-in-out;
+    }
+}
+.find-friends-list{
+    .item-md{
+        margin-bottom: 9px;
+        border-radius: 2px;
+        h2{
+            font-weight: 500;
+            margin-bottom: 3px;
+            color: color($colors,dark);
+        }
+        p{
+            font-size: 1.2rem;
+        }
+    }
+    .item-md{
+        .item-button{
+            font-size: 1.5rem;
+            margin: 9px 0 25px 0;
+        }
+    }
+}

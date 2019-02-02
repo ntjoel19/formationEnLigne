@@ -1,0 +1,16 @@
+.level-list{
+    margin: 10px 0;
+    .item-block{
+        min-height: 8.3rem;
+        border-bottom: 1px solid color($colors,grayColor) !important;
+        &:last-child{
+            border-bottom: none !important;
+        }
+    }
+    ion-label{
+        font-size: 2rem;
+        font-family: "appFont";
+        color: color($colors,dark);
+        text-transform: capitalize;
+    }
+}

@@ -1,0 +1,93 @@
+<ion-header class="list-header">
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-capitalize>Mes étudiants</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="list-content" (ionScroll)="scrollingFun($event)">
+  <img src="assets/img/big-img.png" class="head-img">
+  <div class="list-card">
+    <ion-card *ngFor="let item of myStudentList;let i=index">
+      <ion-item>
+          <ion-avatar item-start>
+            <img *ngIf='item.avatar!==undefined' src="{{item.avatar.url}}">
+            <img *ngIf='item.avatar===undefined' src="assets/img/user-img.png">
+          </ion-avatar>
+        <h2 no-margin text-uppercase>{{item.firstname}} {{item.name}}</h2>
+      </ion-item>
+    
+      <img src="assets/img/pic3.png">
+    
+      <ion-card-content>
+        <div *ngFor="let work of item.homeworks;let j=index">
+          <!--div *ngFor="let comment of work.comments;let m=index">
+            <p *ngIf="comment.author!==email || comment.author!==work.teacher" style="border-radius: 10px;background-color:#e0e0e0;margin:10px;padding:10px">
+              {{comment.message}}
+            </p>
+            <p *ngIf="comment.author===email || comment.author===work.teacher" style="border-radius: 10px;background-color:#00aced;margin:10px;padding:10px">
+              {{comment.message}}
+            </p>
+          </div>
+          <form [formGroup]="form2" (ngSubmit)="post(form2.value,work,m,j,item)">
+            <ion-input formControlName='comm' placeholder='commentaire'></ion-input>
+            <button style="float:right;" ion-button >Poster</button>
+          </form-->
+          <h2>PFM : {{work.pfmName}}</h2>
+          <h3>Chapter : {{work.chapterName}}</h3>
+          <h3>Lecon : {{work.leconName}}</h3>
+          <h5>Exercise title : {{work.exerciseName}}</h5>
+          <div *ngIf="(work.teacher===email && work.done) || (matrice[i][j] && work.done)">
+            <ion-badge color="danger" ion-button item-end *ngIf="work.note!==-10">{{work.note}}/20</ion-badge>
+            <span *ngIf="!work.seen">Voici mon devoir : <a (click)="seen(work,item)" ion-button color="danger" href='{{work.file.content}}'><ion-icon name='md-cloud-download'></ion-icon>{{work.exerciseName}}</a></span>
+            <button *ngIf="work.seen" style="border-radius: 50px;background-color:greenyellow;margin:10px;padding:10px" item-end>
+              <ion-icon name="md-done-all"></ion-icon>
+            </button>
+            
+          </div>
+          <hr>
+          <form [formGroup]="form" *ngIf="work.seen && work.note===-10" (ngSubmit)="noter(form.value,work,j,item)" padding>
+            <ion-list>
+              <ion-list-header color="secondary">Commentaire et note</ion-list-header>
+              <div>
+                <ion-item no-padding>
+                  <ion-label floating>Commentaire</ion-label>
+                  <ion-textarea type="text" formControlName="teacherComment">Par defaut</ion-textarea>
+                </ion-item>
+              </div>
+              <div>
+                <ion-item no-padding>
+                  <ion-label floating>Note</ion-label>
+                  <ion-input type="number" formControlName="note">note</ion-input>
+                </ion-item>
+              </div>
+            </ion-list>
+            <button ion-button color='danger' type="submit">envoyer</button>
+          </form>
+        </div>
+      </ion-card-content>
+    
+      <!--ion-row>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>12 Likes</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="text"></ion-icon>
+            <div>4 Comments</div>
+          </button>
+        </ion-col>
+        <ion-col center text-center>
+          <ion-note>
+            11h ago
+          </ion-note>
+        </ion-col>
+      </ion-row-->
+    </ion-card>
+  </div>
+</ion-content>

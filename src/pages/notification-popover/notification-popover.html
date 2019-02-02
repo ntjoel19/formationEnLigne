@@ -1,0 +1,14 @@
+<ion-list>
+    <ion-list-header color="twitter">Notifications</ion-list-header>
+    <ion-card *ngFor="let item of notification; let i=index"  no-margin>
+      <ion-list *ngIf="item!==undefined" class="card-title" (click)="seen(item,i)" no-margin>
+        <ion-item >
+          <ion-label>{{item.reason}}<br>
+            {{item.date}}<br>
+            <span>{{item.author}}</span>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <hr>
+    </ion-card>
+</ion-list>

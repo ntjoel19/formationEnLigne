@@ -1,0 +1,186 @@
+<ion-content class="app-bg" padding-horizontal>
+  <div class="form-content">
+    <div class="Loginpage">
+      <div class="formContainer">
+          <div class="tabs">
+            <ion-segment mode="ios" [(ngModel)]="tabs">
+              <ion-segment-button value="0" (click)="selectTab(0)">
+                Connexion
+              </ion-segment-button>
+              <ion-segment-button value="1" (click)="selectTab(1)">
+                Inscription
+              </ion-segment-button>
+            </ion-segment>
+          </div>
+          <ion-slides class="app-slider" #mySlider (ionSlideWillChange)="changeWillSlide($event)"  [ngSwitch]="tabs">
+            <ion-slide>
+              <form (ngSubmit)="login()" [formGroup]="loginForm" class="app-form" padding>
+                <ion-list>
+                  <ion-item >
+                      <ion-icon name="md-mail" color="dark" item-start></ion-icon>
+                    <ion-label floating>Email / Username</ion-label>
+                    <ion-input type="email" formControlName="email"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                      <ion-icon name="md-lock" color="dark" item-start></ion-icon>
+                    <ion-label floating>Password</ion-label>
+                    <ion-input type="password" formControlName="password"></ion-input>
+                  </ion-item>
+                </ion-list>
+                <button ion-button block text-uppercase color="twitter" type="submit">login</button>
+                <h4 color="light" (click)="selectTab(1)" text-center>Pas encore de compte? Créer</h4>
+                <h4 color="light" text-center (click)="forgotPassword()">Mot de passe oublié?</h4>
+              </form>
+            </ion-slide>
+            <ion-slide>
+              <form  class="app-form" (ngSubmit)="signup()" padding>
+                <ion-list>
+                  <div class="progress-inner" [style.width]="progress + '%'"></div>
+                  <ion-item icon-left showWhen='android,ios' *ngIf="imageForView==null" (click)="presentActionSheet()">
+                      <ion-icon name="camera" ></ion-icon>Photo de vous
+                  </ion-item>
+                  <ion-avatar showWhen='android,ios' *ngIf="imageForView!==null" (click)="presentActionSheet()" style="border-radius: 100px;">
+                    <img src="{{imageForView}}">
+                  </ion-avatar>
+
+                  <ion-item icon-left showWhen='core,windows' *ngIf="image==null" (click)="presentActionSheet()">
+                      <ion-icon name="camera" ></ion-icon>Photo de vous
+                  </ion-item>
+                  <ion-avatar showWhen='core,windows' *ngIf="image!==null" (click)="presentActionSheet()" style="border-radius: 100px;">
+                    <img src="{{image}}">
+                  </ion-avatar>
+
+                  <div class="user-name" showWhen="windows,core">
+                    <ion-item no-padding>
+                        <ion-icon name="md-mail" color="dark" item-start></ion-icon>
+                      <ion-label floating>Email</ion-label>
+                      <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
+                    </ion-item>
+                    <ion-item no-padding> 
+                        <ion-icon name="md-lock" color="dark" item-start></ion-icon>
+                      <ion-label floating>Mot de passe</ion-label>
+                      <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
+                    </ion-item>
+                  </div>
+                  <div class="user-name" showWhen="windows,core">
+                      <ion-item no-padding>
+                        <ion-icon name="md-person" color="dark" item-start></ion-icon>
+                        <ion-label floating>Noms</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.name" name="user"></ion-input>
+                      </ion-item>
+                      <ion-item no-padding>
+                        <ion-icon name="md-person" color="dark" item-start></ion-icon>
+                        <ion-label floating>Prénoms</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.firstname" name="firstName"></ion-input>
+                      </ion-item>
+                  </div>
+                  <div class="user-name" showWhen="windows,core">
+                      <ion-item no-padding>
+                        <ion-icon name="body" color="dark" item-start></ion-icon>
+                        <ion-label floating>Nom d'utilisateur</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.pseudo" name="pseudo"></ion-input>
+                      </ion-item>
+                      <ion-item no-padding>
+                        <ion-icon name="md-call" color="dark" item-start></ion-icon>
+                        <ion-label floating>Tel (Ex: +237695905191)</ion-label>
+                        <ion-input type="tel" [(ngModel)]="user.phone" name="phone" id="elemtId"></ion-input>
+                      </ion-item>
+                  </div>
+                  <div class="user-name" showWhen="windows,core">
+                    <ion-item no-padding>
+                      <ion-icon name="md-calendar" color="dark" item-start></ion-icon>
+                      <ion-label floating>Date de naissance</ion-label>
+                      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.birthdate" name="dateNaiss"></ion-datetime>
+                    </ion-item>
+                    <ion-item no-padding>
+                      <ion-icon name="ios-people-outline" color="dark" item-start></ion-icon>
+                      <ion-label floating>Statut</ion-label>
+                      <ion-select [(ngModel)]="user.status" name="status">
+                          <ion-option *ngFor="let item of status" value="{{item.title}}">{{item.title}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                  </div>
+
+                  
+                  <ion-item no-padding showWhen="android,ios">
+                      <ion-icon name="md-mail" color="dark" item-start></ion-icon>
+                    <ion-label floating>Email</ion-label>
+                    <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios"> 
+                      <ion-icon name="md-lock" color="dark" item-start></ion-icon>
+                    <ion-label floating >Mot de passe</ion-label>
+                    <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="md-person" color="dark" item-start></ion-icon>
+                    <ion-label floating>Noms</ion-label>
+                    <ion-input type="text" [(ngModel)]="user.name" name="user"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="md-person" color="dark" item-start></ion-icon>
+                    <ion-label floating>Prenoms</ion-label>
+                    <ion-input type="text" [(ngModel)]="user.firstname" name="firstName"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="body" color="dark" item-start></ion-icon>
+                    <ion-label floating>Nom d'utilisateur</ion-label>
+                    <ion-input type="text" [(ngModel)]="user.pseudo" name="pseudo"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="md-call" color="dark" item-start></ion-icon>
+                    <ion-label floating>Tel (Ex: +237 695905191)</ion-label>
+                    <ion-input type="tel"  [(ngModel)]="user.phone" name="phone" id="elemtId"></ion-input>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="md-calendar" color="dark" item-start></ion-icon>
+                    <ion-label floating>Date de naissance</ion-label>
+                    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.birthdate" name="dateNaiss"></ion-datetime>
+                  </ion-item>
+                  <ion-item no-padding showWhen="android,ios">
+                    <ion-icon name="ios-people-outline" color="dark" item-start></ion-icon>
+                    <ion-label floating>Vous êtes...</ion-label>
+                    <ion-select [(ngModel)]="user.status" name="status">
+                        <ion-option *ngFor="let item of status" value="{{item.title}}">{{item.title}}</ion-option>
+                    </ion-select>
+                  </ion-item>
+                  <ion-item no-padding>
+                    <ion-icon name="paper" color="dark" item-start></ion-icon>
+                    <ion-label floating>Souscrivez à un cours</ion-label>
+                    <ion-select [(ngModel)]="course" multiple="true" name="course">
+                        <ion-option *ngFor="let item of courseList | async" value="{{item.subtitle}}">{{item.subtitle}} : {{item.title}}</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-list>
+                <button ion-button block text-uppercase color="twitter" type="submit">Inscription</button>
+            </form>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </div>
+    <div class="loginFooter">
+      <div class="option-sign" text-center>
+        <p no-margin>Sign in with</p>
+        <ion-grid class="social-media" no-padding>
+          <ion-row>
+            <ion-col col-4>
+              <ion-fab center>
+                <button clear ion-fab><i class="app-facebook-1"></i></button>
+              </ion-fab>
+            </ion-col>
+            <ion-col col-4>
+              <ion-fab center>
+                <button clear ion-fab><i class="app-twitter"></i></button>
+              </ion-fab>
+            </ion-col>
+            <ion-col col-4>
+              <ion-fab center>
+                <button clear ion-fab><i class="app-gplus"></i></button>
+              </ion-fab>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+</ion-content>

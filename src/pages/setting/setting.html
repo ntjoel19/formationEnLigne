@@ -1,0 +1,46 @@
+<ion-header class="list-header">
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-capitalize>settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="list-content">
+  <img src="assets/img/big-img.png" class="head-img" />
+  <ion-item-group class="setting-list" padding-horizontal margin-bottom>
+    <ion-item class="select-setting">
+      <ion-label>Display language</ion-label>
+      <ion-select no-padding>
+        <ion-option value="normal" [selected]="true">American English</ion-option>
+        <ion-option value="light">French</ion-option>
+        <ion-option value="bold">Cantonese</ion-option>
+        <ion-option value="bolder">German</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Learning reminder</ion-label>
+      <ion-checkbox color="twitter" item-end></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sound effects</ion-label>
+      <ion-checkbox color="twitter" item-end></ion-checkbox>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item class="logout-item" [navPush]="'LoginPage'" margin-horizontal>
+    <ion-label>Log out</ion-label>
+    <ion-icon name="md-log-out" color="twitter" item-end></ion-icon>
+  </ion-item>
+
+  <ion-fab right bottom>
+    <button ion-fab color="twitter"><ion-icon name="md-share"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button color="twitter" ion-fab><ion-icon color="facebook" name="logo-facebook"></ion-icon></button>
+      <button color="twitter" ion-fab><ion-icon color="twitter" name="logo-twitter"></ion-icon></button>
+      <button color="twitter" ion-fab><ion-icon color="googleplus" name="logo-googleplus"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,73 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <div class="menu-header" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+      <ion-title>{{email}}</ion-title>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <!--div class="courses-section card-background-page" *ngIf="!role">
+      <h5>Bienvenu {{userName}} !</h5>
+      <ion-list>
+        <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
+          <ion-icon name="{{p.icon}}" color="twitter" item-start></ion-icon>
+          <div (click)="openPage(p)">{{p.title}}</div>
+        </ion-item>
+      </ion-list>
+    </div-->
+
+    <div class="courses-section card-background-page" *ngIf="role">
+      <h5>Bienvenu {{userName}} !</h5>
+      <ion-list>
+        <ion-item menuClose *ngFor="let p of dashboard" (click)="openPage(p)">
+          <ion-icon name="{{p.icon}}" color="twitter" item-start></ion-icon>
+          <div (click)="openPage(p)">{{p.title}}</div>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="courses-section card-background-page" *ngIf="role==='Formateur' && accepted">
+      <h5>Formateur</h5>
+      <ion-list>
+        <ion-item menuClose *ngFor="let p of pagesFormateur" (click)="openPage(p)">
+          <ion-icon name="{{p.icon}}" color="twitter" item-start></ion-icon>
+          {{p.title}}
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="courses-section card-background-page" *ngIf="role==='Admin'">
+        <h5>Administrateur</h5>
+        <ion-list>
+          <ion-item menuClose *ngFor="let p of pagesAdmin" (click)="openPage(p)">
+            <ion-icon name="{{p.icon}}" color="twitter" item-start></ion-icon>
+            {{p.title}}
+          </ion-item>
+        </ion-list>
+      </div>
+
+    <div class="courses-section card-background-page">
+      <h5>My courses</h5>
+      <ion-card *ngFor="let item of list" (click)="goTo('ListPage',item)" menuClose no-margin>
+        <img src="assets/img/02.png"/>
+        <ion-list *ngIf="item.authorisation" class="card-title" no-margin>
+          <ion-item>
+            <div class="point" item-start></div>
+            <ion-label>
+              <h2 no-margin text-uppercase>{{item.title}}</h2>
+              <!--p>50.4M learners</p-->
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+      <ion-item (click)="goTo('HomePage', item)" menuClose no-lines>
+        <ion-icon name="md-add-circle" item-start></ion-icon>
+        Souscrire à un autre...
+      </ion-item>
+    </div>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

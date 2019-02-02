@@ -1,0 +1,12 @@
+page-course-details {
+    .ion-card {
+        position: relative;
+        width: 100%;
+        img{
+          width: 100% !important;
+          height: 121px;
+          object-fit: cover;
+          -o-object-fit: cover;
+        }
+    }
+}

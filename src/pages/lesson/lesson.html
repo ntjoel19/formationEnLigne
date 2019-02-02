@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Leçon: {{leconTitle}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="lesson-content list-content" radio-group>
+  <br><hr>
+    <ion-list padding-horizontal no-margin>
+      <h4 margin>Fichiers des leçons</h4>
+      <ion-item *ngFor="let item of material" style="border-radius: 10px; border-width: 1px;border-color: dodgerblue;" no-lines>
+        <ion-avatar item-start>
+          <img item-start *ngIf="item.type==='.pdf' || item.type==='.PDF'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/pic1.png">
+          <img item-start *ngIf="item.type==='.doc' || item.type==='.docx'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/word_logo.png">
+          <img item-start *ngIf="item.type==='.xls' || item.type==='.xls'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/excel.png">
+          <img item-start *ngIf="item.type==='.ppt' || item.type==='.pptx'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/ppt.png">
+        </ion-avatar>
+        <h2>{{item.name}}{{item.type}}</h2>
+        <a ion-button color="twitter" href="{{item.content}}">
+          Télécharger <ion-icon name="md-cloud-download"></ion-icon>
+        </a>
+      </ion-item>
+      <h4 margin>Exercices</h4>
+      <ion-item *ngFor="let item of quizz" style="border-radius: 10px; border-width: 1px;border-color: dodgerblue;" no-lines>
+        <ion-avatar item-start>
+          <img item-start *ngIf="item.type==='.pdf' || item.type==='.PDF'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/pic1.png">
+          <img item-start *ngIf="item.type==='.xls' || item.type==='.xls'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/excel.png">
+          <img item-start *ngIf="item.type==='.ppt' || item.type==='.pptx'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/ppt.png">
+          <img item-start *ngIf="item.type==='.doc' || item.type==='.docx'" style="width: 50px;height: 50px;border-radius: 15px;" src="assets/img/word_logo.png">
+        </ion-avatar>
+        <h2>{{item.name}}{{item.type}}</h2>
+        <a ion-button (click)="isDownloaded(item.name,item.type,item)" color="twitter" href="{{item.content}}">
+          Télécharger <ion-icon name="md-cloud-download"></ion-icon>
+        </a>
+      </ion-item>
+    </ion-list>
+  <div class="check" padding>
+    <button ion-button block color="twitter" text-uppercase>check</button>
+    <div class="progress-outer">
+      <div class="progress-inner" [style.width]="progress + '%'"></div>
+    </div>
+  </div>
+</ion-content>

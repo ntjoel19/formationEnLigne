@@ -1,0 +1,79 @@
+<ion-header>
+    <ion-navbar color="twitter">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title text-capitalize>Détails du cours</ion-title>
+      <ion-buttons *ngIf="email" end>
+          <button ion-button icon-only (click)="showNotification($event)">
+              <ion-icon name="md-notifications" color="danger">{{numberOfNotifications}}</ion-icon>
+            </button>
+      </ion-buttons>
+      <ion-buttons *ngIf="!email" end>
+        <button ion-button icon-only (click)="goTo('LoginPage')">
+          <ion-icon name="md-login" color="facebook">Login</ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content class="card-background-page" (ionScroll)="scrollingFun($event)">
+    <div class="list-card" class="find-friends-list" padding-horizontal no-margin>
+      <ion-card >
+        <ion-item style="border-radius: 25px 25px 0px 0px solid; color: gainsboro;" >
+          <h1>{{course.title}}</h1>
+          <h3>Teacher : {{course.teacher}}</h3>
+          <p>Posted : {{course.post_date}}</p>
+        </ion-item>
+      
+        <img style="height: 121px;object-fit: cover;-o-object-fit: cover;" src="{{course.descriptImage}}">
+      
+        <ion-card-content>
+          <p>{{course.description}}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <button ion-button block text-uppercase color="twitter" (click)="enrollToCourse()">Envoyer demande d'adhésion</button>
+
+    <ion-card>
+        <ion-card-header>
+          Autres informations
+        </ion-card-header>
+      
+        <ion-list>
+          <button ion-item>
+            <ion-icon name="ios-time" item-start></ion-icon>
+            Date de fin : {{course.duration}}
+          </button>
+          
+          <button ion-item>
+            <ion-icon name="ios-people" item-start></ion-icon>
+            Public : <span *ngIf="course.authorisation">Ouvert à tous</span><span *ngIf="!course.authorisation">Fermé</span>
+          </button>
+
+          <button ion-item>
+            <ion-icon name="ios-chatbubbles" item-start></ion-icon>
+            Langue : Français
+          </button>
+      
+          <button ion-item>
+            <ion-icon name="ios-person" item-start></ion-icon>
+            Auteur : {{course.teacher}}
+          </button>
+      
+          <button ion-item>
+            <ion-icon name="ios-cash" item-start></ion-icon>
+            Coût : FREE
+          </button>
+      
+          <button ion-item>
+            <ion-icon name="ios-timer" item-start></ion-icon>
+            Effort : 3 à 5 heures par semaine
+          </button>
+      
+        </ion-list>
+      </ion-card>
+  </ion-content>
+  

@@ -1,0 +1,34 @@
+<ion-header class="list-header">
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Chapitre : {{pageTitle}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [navPush]="'ProfilePage'">
+        <ion-icon name="md-notifications"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="list-content" (ionScroll)="scrollingFun($event)">
+  <img src="assets/img/pic2.png" class="head-img" />
+  <div class="list-card header-list">
+    <ion-card>
+      <!--ion-item no-lines>
+        <h4>Done : </h4>
+        <div item-end><p>0/5 lessons</p><p>0%</p></div>
+      </ion-item-->
+    </ion-card>
+  </div>
+  <div class="list-card">
+    <ion-card *ngFor="let item of lessons; let i=index">
+      <ion-item no-lines>
+        <h4>LESSON {{i+1}}: {{item.leconTitle}}</h4>
+        <button ion-button color="twitter" [ngClass]="{'redoBtn':false}" (click)="goTo('LessonPage',item)" item-end>Start</button>
+      </ion-item>
+    </ion-card>
+  </div>
+</ion-content>

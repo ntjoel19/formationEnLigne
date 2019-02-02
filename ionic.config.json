@@ -1,0 +1,12 @@
+{
+  "name": "gbeec-elearning",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "typescript": true,
+  "proxies": [{
+      "path": "/gbeec-formationenligne.appspot.com/o/course_files",
+      "proxyUrl": " https://firebasestorage.googleapis.com/v0/b/gbeec-formationenligne.appspot.com/o/course_files"
+  }]
+}

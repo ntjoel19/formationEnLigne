@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-capitalize>profile</ion-title>
+    <ion-buttons end>
+      <button (click)="changeData()" ion-button icon-only>
+        <ion-icon name="md-create" *ngIf="isDisabled" class="edit-form" color="light"></ion-icon>
+        <ion-icon name="md-checkmark" *ngIf="!isDisabled" class="edit-form" color="light"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="list-content" (ionScroll)="scrollingFun($event)">
+  <img *ngIf="meDetail.avatar==null && imageForView==null" src="assets/img/user-img.png" class="head-img" />
+  <img *ngIf="meDetail.avatar!=null && imageForView==null" src="{{meDetail.avatar.url}}" class="head-img" />
+  <img *ngIf="meDetail.avatar!=null && imageForView!=null" src="{{imageForView}}" class="head-img" />
+  <img *ngIf="!meDetail.avatar==null && imageForView==null" src="{{imageForView}}" class="head-img" />
+  <div class="edit-icon" (click)="presentActionSheet()" text-center><ion-icon name="ios-reverse-camera"></ion-icon></div>
+
+  <div class="profile-content">
+
+    <ion-segment mode="ios" [(ngModel)]="tabs" class="tabs" margin-top margin-horizontal>
+      <ion-segment-button value="0" (click)="selectTab(0)">
+        <ion-icon name="md-information-circle" color="twitter"></ion-icon>
+        About
+      </ion-segment-button>
+      <ion-segment-button value="1" (click)="selectTab(1)">
+        <ion-icon name="md-people" color="twitter"></ion-icon>
+        Friends
+      </ion-segment-button>
+      <ion-segment-button value="2" (click)="selectTab(2)">
+        <ion-icon name="md-notifications" color="twitter"></ion-icon>
+        Notification
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-slides class="app-slider" #profileSlider (ionSlideWillChange)="changeWillSlide($event)"  [ngSwitch]="tabs">
+      <ion-slide padding-horizontal>
+        <form  class="app-form" (ngSubmit)="updateProfile()" padding>
+          <ion-list class="profile-form" no-margin>
+            <ion-item no-lines>
+              <ion-icon name="md-person" color="dark" item-start></ion-icon>
+              <ion-input type="text" [(ngModel)]="meDetail.name" name='name' disabled="{{isDisabled}}"></ion-input>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-icon name="md-person" color="dark" item-start></ion-icon>
+              <ion-input type="text" [(ngModel)]="meDetail.firstname" name='firstname' disabled="{{isDisabled}}"></ion-input>
+            </ion-item>
+            <ion-item no-lines>
+              <ion-icon name="md-call" color="dark" item-start></ion-icon>
+              <ion-input type="tel" [(ngModel)]="meDetail.phone" name='phone'  disabled="{{isDisabled}}" id="elemtId"></ion-input>
+            </ion-item>
+            
+            <ion-item no-lines>
+              <ion-icon name="md-mail" color="dark" item-start></ion-icon>
+              <ion-input type="text" [(ngModel)]="meDetail.pseudo" name='pseudo' disabled="{{isDisabled}}"></ion-input>
+            </ion-item>
+
+            <ion-item no-lines>
+              <ion-label floating>Role</ion-label>
+              <ion-select [(ngModel)]="meDetail.status" name="status" disabled="{{isDisabled}}">
+                  <ion-option *ngFor="let item of status" value="{{item.title}}">{{item.title}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <button ion-button block *ngIf="!isDisabled" text-uppercase color="twitter" type="submit">Update</button>
+        </form>
+        <div class="courses-section card-background-page" text-left>
+          <h5>courses</h5>
+          <div *ngIf="list !== undefined">
+            <ion-card *ngFor="let item of list" [navPush]="'LevelPage'" no-margin>
+              <img src="{{item.img}}"/>
+              <ion-list class="card-title" no-margin>
+                <ion-item>
+                  <div class="point" item-start></div>
+                  <ion-label>
+                    <h2 no-margin text-uppercase>{{item.title}}</h2>
+                    <p>{{item.subtitle}}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card>
+          </div>
+          <div *ngIf="list === undefined">
+            <ion-card *ngFor="let item of myCourses" [navPush]="'LevelPage'" no-margin>
+              <img src="assets/img/02.png"/>
+              <ion-list class="card-title" no-margin>
+                <ion-item>
+                  <div class="point" item-start></div>
+                  <ion-label>
+                    <h2 no-margin text-uppercase>{{item.title}}</h2>
+                    <p>{{item.subtitle}}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card>
+          </div>
+        </div>
+      </ion-slide>
+
+      <ion-slide padding-horizontal>
+        <ion-list class="find-friends-list">
+          <ion-item *ngFor="let item of friends" no-lines>
+            <ion-avatar item-start>
+              <img src="{{item.img}}">
+            </ion-avatar>
+            <h2>{{item.name}}</h2>
+            <p>{{item.email}}</p>
+            <!--button (click)="removeItem(item)" ion-button clear item-end><ion-icon name="md-remove-circle" color="twitter"></ion-icon></button-->
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+
+      <ion-slide padding-horizontal>
+        <ion-list class="find-friends-list">
+          <ion-item *ngFor="let item of notification" no-lines>
+            <ion-avatar item-start>
+              <img src="assets/img/img1.png">
+            </ion-avatar>
+            <h2>{{item.author}}</h2>
+            <p>{{item.reason}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+    </ion-slides>
+
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="twitter"><ion-icon name="md-share"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button color="twitter" ion-fab><ion-icon color="facebook" name="logo-facebook"></ion-icon></button>
+      <button color="twitter" ion-fab><ion-icon color="twitter" name="logo-twitter"></ion-icon></button>
+      <button color="twitter" ion-fab><ion-icon color="googleplus" name="logo-googleplus"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

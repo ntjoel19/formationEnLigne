@@ -1,0 +1,58 @@
+page-setting {
+    .item-md{
+        padding-right: 16px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 9px 27px -2px rgba(0, 0, 0, 0.15), 0 2px 11px 0 rgba(0, 0, 0, 0.12);
+        .item-inner{
+            padding-right: 0 !important;
+        }
+        .checkbox-md{
+            &[item-end]{
+                margin: 11px 0 10px 0 !important;
+            }
+            .checkbox-icon{
+                border-color: color($colors,twitter) !important;
+            }
+            .checkbox-checked{
+                .checkbox-inner{
+                    border-color: color($colors,light) !important;
+                }
+            }
+        }
+    }
+}
+.setting-list{
+    margin-top: -35px;
+    ion-label{
+        font-size: 1.6rem;
+        font-weight: 400;
+        margin: 15px 8px 15px 0;
+        p{
+            font-size: 1.3rem;
+            margin-top: 3px;
+        }
+    }
+}
+.select-setting{
+    .input-wrapper{
+        display: block;
+        margin-bottom: 15px;
+    }
+    .label-md{
+        margin-bottom: 3px;
+        color: #000;
+    }
+    .select-md{
+        font-size: 1.4rem;
+        color: color($colors,grayColor);
+        .select-icon{
+            display: none;
+        }
+    }
+}
+.logout-item{
+    width: calc(100% - 32px);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 9px 27px -2px rgba(0, 0, 0, 0.15), 0 2px 11px 0 rgba(0, 0, 0, 0.12);
+    ion-icon[item-end]{
+        margin-right: 0 !important;
+    }
+}

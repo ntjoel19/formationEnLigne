@@ -1,0 +1,50 @@
+<ion-header >
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-capitalize>Discussions</ion-title>
+    <ion-searchbar item-end placeholder="find friends"  class="head-search"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="list-content">
+  <br><br><br><br><br><br>
+  <ion-list class="find-friends-list" padding-horizontal no-margin> 
+    <h3 >Mes camarades</h3>
+    <ion-item swhowWhen="core,windows" *ngFor="let item of friends" style='border-radius: 10px' no-lines>
+      <ion-avatar item-start>
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.name}} <small>{{item.email}}</small></h2>
+      <p></p>
+      <button ion-button clear (click)="chatWith('ChatPage',item)"  item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+    </ion-item>
+    <ion-item swhowWhen="android,ios" (click)="chatWith('ChatPage',item)"(click)="chatWith('ChatPage',item)" *ngFor="let item of friends" style='border-radius: 10px' no-lines>
+      <ion-avatar item-start>
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.name}} <small>{{item.email}}</small></h2>
+      <p></p>
+      <button ion-button clear (click)="chatWith('ChatPage',item)"  item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+    </ion-item>
+    <h3>Mes formateurs</h3>
+    <ion-item showWhen="core,windows" *ngFor="let item of teachers" style='border-radius: 10px' no-lines>
+      <ion-avatar item-start>
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.name}}</h2>
+      <p>{{item.email}}</p>
+      <button ion-button clear (click)="chatWith('ChatPage',item)"  item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+    </ion-item>
+    <ion-item showWhen="android,ios" (click)="chatWith('ChatPage',item)" *ngFor="let item of teachers" style='border-radius: 10px' no-lines>
+      <ion-avatar item-start>
+        <img src="{{item.img}}">
+      </ion-avatar>
+      <h2>{{item.name}}</h2>
+      <p>{{item.email}}</p>
+      <button ion-button clear (click)="chatWith('ChatPage',item)" item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+    </ion-item>
+  </ion-list>
+</ion-content>
