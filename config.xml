@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.gbeec_fel.myApp" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>GBEEC_FormationEnLigne</name>
-    <description>Plateforme de formation en ligne proposée par le GBEEC</description>
-    <author email="ntjoel19@gmail.com" href="/">GBEEC_FormationEnLigne Team</author>
+<widget id="com.namek.crudApp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>namekChat</name>
+    <description>Petite application de chat qui implemente le crud sur cloud FireStorage</description>
+    <author email="ntjoel19@gmail.com" href="/">namek team</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

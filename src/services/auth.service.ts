@@ -3,6 +3,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 //import AuthProvider = firebase.auth.AuthProvider;
 
+/**
+ * @author Ntepp J96n J09l
+ */
 @Injectable()
 export class AuthService {
 	private user: firebase.User;

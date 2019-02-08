@@ -74,32 +74,11 @@
                         <ion-input type="text" [(ngModel)]="user.firstname" name="firstName"></ion-input>
                       </ion-item>
                   </div>
-                  <div class="user-name" showWhen="windows,core">
-                      <ion-item no-padding>
-                        <ion-icon name="body" color="dark" item-start></ion-icon>
-                        <ion-label floating>Nom d'utilisateur</ion-label>
-                        <ion-input type="text" [(ngModel)]="user.pseudo" name="pseudo"></ion-input>
-                      </ion-item>
-                      <ion-item no-padding>
-                        <ion-icon name="md-call" color="dark" item-start></ion-icon>
-                        <ion-label floating>Tel (Ex: +237695905191)</ion-label>
-                        <ion-input type="tel" [(ngModel)]="user.phone" name="phone" id="elemtId"></ion-input>
-                      </ion-item>
-                  </div>
-                  <div class="user-name" showWhen="windows,core">
-                    <ion-item no-padding>
-                      <ion-icon name="md-calendar" color="dark" item-start></ion-icon>
-                      <ion-label floating>Date de naissance</ion-label>
-                      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.birthdate" name="dateNaiss"></ion-datetime>
-                    </ion-item>
-                    <ion-item no-padding>
-                      <ion-icon name="ios-people-outline" color="dark" item-start></ion-icon>
-                      <ion-label floating>Statut</ion-label>
-                      <ion-select [(ngModel)]="user.status" name="status">
-                          <ion-option *ngFor="let item of status" value="{{item.title}}">{{item.title}}</ion-option>
-                      </ion-select>
-                    </ion-item>
-                  </div>
+                  <ion-item no-padding>
+                    <ion-icon name="body" color="dark" item-start></ion-icon>
+                    <ion-label floating>Nom d'utilisateur</ion-label>
+                    <ion-input type="text" [(ngModel)]="user.pseudo" name="pseudo"></ion-input>
+                  </ion-item>
 
                   
                   <ion-item no-padding showWhen="android,ios">
@@ -126,30 +105,6 @@
                     <ion-icon name="body" color="dark" item-start></ion-icon>
                     <ion-label floating>Nom d'utilisateur</ion-label>
                     <ion-input type="text" [(ngModel)]="user.pseudo" name="pseudo"></ion-input>
-                  </ion-item>
-                  <ion-item no-padding showWhen="android,ios">
-                    <ion-icon name="md-call" color="dark" item-start></ion-icon>
-                    <ion-label floating>Tel (Ex: +237 695905191)</ion-label>
-                    <ion-input type="tel"  [(ngModel)]="user.phone" name="phone" id="elemtId"></ion-input>
-                  </ion-item>
-                  <ion-item no-padding showWhen="android,ios">
-                    <ion-icon name="md-calendar" color="dark" item-start></ion-icon>
-                    <ion-label floating>Date de naissance</ion-label>
-                    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.birthdate" name="dateNaiss"></ion-datetime>
-                  </ion-item>
-                  <ion-item no-padding showWhen="android,ios">
-                    <ion-icon name="ios-people-outline" color="dark" item-start></ion-icon>
-                    <ion-label floating>Vous êtes...</ion-label>
-                    <ion-select [(ngModel)]="user.status" name="status">
-                        <ion-option *ngFor="let item of status" value="{{item.title}}">{{item.title}}</ion-option>
-                    </ion-select>
-                  </ion-item>
-                  <ion-item no-padding>
-                    <ion-icon name="paper" color="dark" item-start></ion-icon>
-                    <ion-label floating>Souscrivez à un cours</ion-label>
-                    <ion-select [(ngModel)]="course" multiple="true" name="course">
-                        <ion-option *ngFor="let item of courseList | async" value="{{item.subtitle}}">{{item.subtitle}} : {{item.title}}</ion-option>
-                    </ion-select>
                   </ion-item>
                 </ion-list>
                 <button ion-button block text-uppercase color="twitter" type="submit">Inscription</button>

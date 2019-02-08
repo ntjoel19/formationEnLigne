@@ -7,6 +7,9 @@ import { User } from '../../models/user.model';
 import { UserListService } from '../../services/user.service';
 import { User as UserProvider } from '../../provider/user'; 
 
+/**
+ * @author :  Ntepp J96n J09l
+ */
 @IonicPage()
 @Component({
   selector: 'page-friends',
@@ -19,9 +22,12 @@ export class FriendsPage {
   friends: Array<any> = [];
 
   userList : Observable<User[]>;
-  userListOff:any[]
-  observeOffline: boolean = false;
-  teachers: Array<any> = [];
+  userList2:any[]
+  userListTab:any[]
+  email: string;
+  numberOfNotSeen: number[]=new Array<number>(1000);
+  lastMessage: any[]=new Array<string>(1000)
+  me: any;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private userService: UserListService, 
@@ -29,143 +35,14 @@ export class FriendsPage {
     public renderer: Renderer,
     public alertCtrl: AlertController
     ) {
-    this.userList = this.userService.getUserList().valueChanges();
-
-    /*window.addEventListener('offline', () => {
-      //Do task when no internet connection
-      //console.log("offline")
-      this.userProvider.getUserList().then(list=>{
-        this.userListOff = list;
-        //console.log(this.userListOff)
-        userProvider.getCourse().then(course=>{
-          if(course !== undefined){
-            //we iterate on his course
-            for(let i=0;i<course.length;i++){
-              //for each course, find all users that also subcribed to it.
-              //if(this.userList !== undefined){
-              this.observeOffline = false
-              this.userListOff.forEach(user=>{
-                if(user.courses !== undefined){
-                  user.courses.forEach(c=>{
-                    //console.log(course[i].title);
-                    if(c.title === course[i].title){
-                      let u:any;
-                      if(user.avatar !== undefined) 
-                        u={img: user.avatar.url,name: user.name,email:user.email}
-                      else
-                        u={img: "assets/img/user-img.png",name: user.name,email:user.email}                      
-                      this.friends.push(u);
-                      //console.dir(this.friends)
-                    }
-                  })
-                }
-              })
-              
-            }
-          }
-        })
-      })
-    });*/
-
-    this.userProvider.getUserList().then(list=>{
-      this.userListOff = list;
-      //console.log(this.userListOff)
-      userProvider.getCourse().then(course=>{
-        if(course !== null){
-          //we iterate on his course
-          for(let i=0;i<course.length;i++){
-            //for each course, find all users that also subcribed to it.
-            //if(this.userList !== undefined){
-            this.observeOffline = false
-            this.userListOff.forEach(user=>{
-              if(user.courses !== undefined){
-                user.courses.forEach(c=>{
-                  //console.log(course[i].title);
-                  if(c.title === course[i].title){
-                    let u:any;
-                    if(user.avatar !== undefined) 
-                      u={img: user.avatar.url,name: user.name,email:user.email}
-                    else
-                      u={img: "assets/img/user-img.png",name: user.name,email:user.email}                      
-                    this.friends.push(u);
-                    //console.dir(this.friends)
-                  }
-                })
-                this.removeDuplicated(this.friends)
-              }
-            })
-            
-          }
-        }
-      })
-    })
-
-    //get the course of the current logged user
-    userProvider.getUsermail().then(myEmail=>{
-      this.userService.getAnUser('email',myEmail).valueChanges().subscribe(us=>{
-        this.observeOffline = true
-        this.teachers=[];
-        this.friends=[];
-        us.forEach(u=>{
-          let course = u.courses;
-          if(course !== undefined){
-            //we iterate on his course
-            
-              if(course!==null)
-              for(let i=0;i<course.length;i++){
-                //for each course, find all users that also subcribed to it.
-                //if(this.userList !== undefined){
-                this.userList.forEach(item=>{
-                  
-                  
-                  let userList:any[]
-                  item.forEach(user=>{
-                    if(userList===undefined) userList=[user]
-                    else userList.push(user)
-                    if(user.courses !== undefined){
-                      user.courses.forEach(c=>{
-                        //console.log(course[i].title);
-                        if(c.title === course[i].title && user.email!==myEmail){
-                          let u:any;
-                          if(user.avatar !== undefined) 
-                            u={img: user.avatar.url,name: user.name,email:user.email}
-                          else
-                            u={img: "assets/img/user-img.png",name: user.name,email:user.email}                      
-                          this.friends.push(u);
-                          //console.dir(this.friends)
-                        }
-                      })
-                      this.removeDuplicated(this.friends);
-                    }
-                  })
-                  this.userProvider.setUserList(userList)
-                })
     
-                this.userService.getAnUser("email",course[i].PostedBy).valueChanges(['child_added','child_removed']).subscribe(t=>{
-                  
-                  t.forEach(teacher=>{
-                    //console.log(teacher)
-                    let u:any;
-                    if(teacher.email!==myEmail){
-                      if(teacher.avatar !== undefined) 
-                        u={img: teacher.avatar.url,name: teacher.name,email:teacher.email}
-                      else
-                        u={img: "assets/img/user-img.png",name: teacher.name,email:teacher.email}                      
-                      this.teachers.push(u);
-                    }
-                    //console.dir(this.teachers)
-                    this.removeDuplicated(this.teachers);
-                  })
-                })
-              }
-          }
-        })
-      })
-      
-    })
-    //this.friends = [{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'}, {img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'}]
-  }
+    }
 
+  /**
+   * @function removeDuplicated
+   * @description : utility function - remove all duplicated element in an array
+   * @param list the array wher we want to remeove duplicated values
+   */
   removeDuplicated(list):any[]{
     if(list!==undefined){
       for(let i=0;i<list.length;i++){
@@ -199,8 +76,48 @@ export class FriendsPage {
   this.renderer.setElementStyle(this.headerbg, 'background', 'rgba(0,172,237,' + this.darkHeader +')');
   }
 
+  /**
+   * @function chatWith
+   * @description open a new chat page with the following to parameters
+   * @param page the page of chat: parameter to give to the next page called page
+   * @param friends the user with who I want to chat: parameter to give to the next page called page
+   */
   chatWith(page,friends){
     //console.log(friends);
     this.navCtrl.push(page,friends);
+  }
+
+  ionViewDidLoad(){
+    this.userProvider.getUsermail().then(myEmail=>{
+      this.email = myEmail;
+      this.userService.getAUser2('email',myEmail).valueChanges().subscribe(ls=>{
+        this.userList = undefined
+        this.me = ls[0]
+        if(this.me.chat!=null){
+          this.me.chat.forEach((cha,j)=>{
+            this.numberOfNotSeen[j]=0;
+            if(cha.ChatWith!==this.email){
+    
+              this.userService.getAUser2('email',cha.ChatWith).valueChanges().subscribe(u=>{
+                if(this.userList2=== undefined) this.userList2 = [u[0]]; else this.userList2.push(u[0]);
+              })
+              this.lastMessage[j] = cha.messages[cha.messages.length-1].msg;
+              for(let k=0;k<cha.messages.length;k++){
+                if(cha.messages[k].seen===false){
+                  this.numberOfNotSeen[j] ++;
+                }
+              }
+              
+            }
+          })
+        }
+      })
+      //console.log(myEmail)
+    })
+  }
+  
+  ionViewDidEnter(){
+    //this.navCtrl.setRoot("FriendsPage");
+    
   }
 }

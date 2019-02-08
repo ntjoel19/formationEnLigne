@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth'
 import { InAppBrowser } from '@ionic-native/in-app-browser'
 import { Base64 } from '@ionic-native/base64';
@@ -24,7 +25,6 @@ import {environment} from '../environment/environment'
 
 import { User } from '../provider/user';
 
-import { CourseListService } from '../services/course.service';
 import { UserListService } from '../services/user.service'
 import { AuthService } from '../services/auth.service';
 import { File } from '@ionic-native/file';
@@ -37,13 +37,7 @@ import { DatePipe } from '@angular/common';
 import { LongPressModule } from 'ionic-long-press';
 import { LoginPageModule } from '../pages/login/login.module';
 import { HomePageModule } from '../pages/home/home.module';
-import { UserManagerPageModule } from '../pages/user-manager/user-manager.module';
-import { NotificationService } from '../services/notification.service';
 import { DataProvider } from '../providers/data/data';
-import { FileUploadProvider } from '../providers/file-upload/file-upload';
-import { NotificationPopoverPageModule } from '../pages/notification-popover/notification-popover.module';
-import { UpLoadExercisePopoverPageModule } from '../pages/up-load-exercise-popover/up-load-exercise-popover.module';
-import { CourseProvider } from '../providers/course/course';
 
 var config = {
   backButtonText: '',
@@ -65,10 +59,7 @@ var config = {
     LoginPageModule,
     IonicStorageModule.forRoot(),
     HomePageModule,
-    LongPressModule,
-    UserManagerPageModule,
-    NotificationPopoverPageModule,
-    UpLoadExercisePopoverPageModule
+    LongPressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -76,7 +67,6 @@ var config = {
   ],
   providers: [
     StatusBar,
-    CourseListService,
     UserListService,
     SplashScreen,
     Push,
@@ -84,8 +74,8 @@ var config = {
     Badge,
     User,
     AuthService,
-    NotificationService,
     AngularFireAuth,
+    AngularFirestore,
     DatePipe,
     Transfer,
     FileTransfer, FileTransferObject,
@@ -96,9 +86,7 @@ var config = {
     {provide: ErrorHandler, useClass: IonicErrorHandler, deps: [Storage]},
     DataProvider,
     InAppBrowser,
-    Base64,
-    FileUploadProvider,
-    CourseProvider
+    Base64
   ]
 })
 export class AppModule {}

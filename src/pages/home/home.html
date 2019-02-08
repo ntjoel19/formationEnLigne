@@ -3,48 +3,20 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Cours disponibles <span *ngIf="!observeOffline">(Offline)</span></ion-title>
-    <ion-buttons *ngIf='numberOfNotifications != 0' end>
-      <button ion-button (click)="showNotification($event)">
-        <ion-icon name="md-notifications" color="danger">{{numberOfNotifications}}</ion-icon>
-      </button>
-    </ion-buttons>
+namekChat (CRUD)    
   </ion-navbar>
 </ion-header>
 
 
 <ion-content class="card-background-page">
-  <h3>Tous les cours</h3>
-  <div *ngIf="observeOffline">
-    <ion-card *ngFor="let item of onlineCourseList"  no-margin>
-      <img *ngIf="item.descriptImage===''" src="assets/img/02.png"/>
-      <img *ngIf="item.descriptImage!==''" src="{{item.descriptImage}}"/>
-      <ion-list class="card-title" (click)="goTo('CourseDetailsPage',item)" no-margin>
-        <ion-item color="twitter">
-          <div item-start></div>
-          <ion-label>
-            <h2 no-margin text-uppercase>{{item.title}}</h2>
-            <p>{{item.subtitle}}</p>
-          </ion-label>
-          <!--ion-checkbox [(ngModel)]="item.subtitle"></ion-checkbox>-->
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  </div>
-  <div *ngIf="!observeOffline">
-    <ion-card *ngFor="let item of offlineCourseList"  no-margin>
-      <img src="assets/img/02.png"/>
-      <ion-list class="card-title" (click)="goTo('CourseDetailsPage',item)" no-margin>
-        <ion-item color="twitter">
-          <div item-start></div>
-          <ion-label>
-            <h2 no-margin text-uppercase>{{item.title}}</h2>
-            <p>{{item.subtitle}}</p>
-          </ion-label>
-          <!--ion-checkbox [(ngModel)]="item.subtitle"></ion-checkbox>-->
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <img src="assets/img/img_com.png"/>
+    </ion-card-header>
   
+    <ion-card-content>
+      Bienvenu dans namekChat un test CRUD sur cloud FireStore comme support et fondé sur ionic 3.<br>
+      Vous pouvez télécharger l'apk ici <a href="">ici</a> ou via play store <a href="">ici</a>.
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -15,13 +15,36 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content #content padding>
   <div *ngFor="let message of friendChatLiveMsg; let i=index">
+    
     <p *ngIf="!message.me" left style="border-radius: 10px;background-color:#00aced;margin:10px;padding:10px">
+      <ion-buttons end>
+        <button clear color="#e0e0e0" *ngIf="showOption[i]" (click)="delMessage(i)" ion-button icon-only>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <button clear color="#e0e0e0" *ngIf="showOption[i]" (click)="editMessage(i,message.msg)" ion-button icon-only>
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button clear color="#e0e0e0" (click)="moreOptions(i)" ion-button icon-only>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
       <small><i>Posted : {{message.date}}</i></small><br>
       {{message.msg}}
     </p>
     <p *ngIf="message.me" right style="border-radius: 10px;background-color:#e0e0e0;margin:10px;padding:10px">
+      <ion-buttons end>
+        <button clear color="twitter" *ngIf="showOption[i]" (click)="delMessage(i)" ion-button icon-only>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <button clear color="twitter" *ngIf="showOption[i]" (click)="editMessage(i,message.msg)" ion-button icon-only>
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button clear color="twitter" (click)="moreOptions(i)" ion-button icon-only>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
       <small><i>Posted : {{message.date}}</i></small><br>
       {{message.msg}}
     </p>
@@ -36,7 +59,7 @@
           <ion-textarea  cols="20" style="border-radius: 100px;" formControlName='comm' style placeholder='Ecrivez votre message'></ion-textarea>
         </ion-item>
         <ion-item no-padding style="border-width: 1px;width:10%">
-          <button clear color="twitter" ion-button ><ion-icon style="width:100%;height:100%;" name="paper-plane"></ion-icon></button>
+          <button clear icon-only color="twitter" ion-button ><ion-icon style="width:100%;height:100%;" name="paper-plane"></ion-icon></button>
         </ion-item>
       </div>
     </form>

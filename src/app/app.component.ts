@@ -6,11 +6,9 @@ import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../pages/login/login';
 import {HomePage } from '../pages/home/home';
-import {NotificationPopoverPage} from '../pages/notification-popover/notification-popover';
 
 import { AuthService } from '../services/auth.service';
 import { User as UserProvider} from '../provider/user';
-import { CourseListService } from '../services/course.service';
 import { Badge } from '@ionic-native/badge';
 import { FCM } from '@ionic-native/fcm';
 
@@ -51,8 +49,7 @@ export class MyApp {
     public splashScreen: SplashScreen, public renderer: Renderer , public events:Events,
     public zone :NgZone, public menu: MenuController, public userProvider: UserProvider,
     public popoverCtrl:PopoverController,
-    public toastCtrl:ToastController, public userService:UserListService,
-    public courseService : CourseListService) 
+    public toastCtrl:ToastController, public userService:UserListService) 
   {
     this.initializeApp();
 
@@ -65,22 +62,9 @@ export class MyApp {
     this.dashboard = [
       { title: 'Accueil', component: 'HomePage', icon: 'md-home' },
       { title: 'Discussions', component: 'FriendsPage', icon: 'chatboxes' },
-      { title: 'Mes cours', component: 'MyCoursesPage', icon: 'ios-albums' },
-      { title: 'Mes travaux', component: 'MyMarksPage', icon: 'md-trophy' },
       { title: 'Profile', component: 'ProfilePage', icon: 'md-person' },
       { title: 'Configurations', component: 'SettingPage', icon: 'md-settings' },
       { title: 'Sortir', component: 'LoginPage', icon: 'md-log-out' }
-    ]
-
-    this.pagesAdmin = [
-      { title: 'Gestion Utilisateurs', component: 'UserManagerPage', icon: 'md-person' },
-      { title: 'Gestion Cours', component: 'CourseManagementPage', icon: 'md-school' },
-      { title: 'Mes étudiants', component: 'MyStudentPage', icon: 'md-person' }
-    ]
-
-    this.pagesFormateur = [
-      { title: 'Gestion Cours', component: 'CourseManagementPage', icon: 'md-school' },
-      { title: 'Mes étudiants', component: 'MyStudentPage', icon: 'md-person' }
     ]
     
   }
@@ -98,60 +82,19 @@ export class MyApp {
           if (user) {
             //if the user is logged...
             this.rootPage = HomePage;
-            window.addEventListener("offline",()=>{
-              
-              this.userProvider.getUser().then(thisUserSaved=>{
-                this.userFb = thisUserSaved[0];
-                this.list = this.userFb.courses
-                this.role = this.userFb.status;
-                this.accepted = this.userFb.accepted;
-                this.image = (this.userFb.avatar!=null? this.userFb.avatar.url:"");
-                this.userName = this.userFb.pseudo;
-                this.notification = this.userFb.notification;
-                if(this.notification !== null){
-                  this.numberOfNotifications = this.notification.length;
-                  this.badge.set(this.numberOfNotifications);
-                }
-              })
-            })
-            this.userProvider.getUser().then(thisUserSaved=>{
-              //console.log(thisUserSaved)
-              if(thisUserSaved !== null){  
-                this.userFb = thisUserSaved[0];
-                this.list = this.userFb.courses
-                this.role = this.userFb.status;
-                //console.log(this.role)
-                this.accepted = this.userFb.accepted;
-                this.image = (this.userFb.avatar!=null? this.userFb.avatar.url:"");
-                this.userName = this.userFb.pseudo;
-                this.notification = this.userFb.notification;
-                if(this.notification !== undefined){
-                  this.numberOfNotifications = this.notification.length;
-                  this.badge.set(this.numberOfNotifications);
-                }
-              }
-            })
-            this.thisUser = this.userService.getAnUser('email',user.email).valueChanges();
+            
+            this.thisUser = this.userService.getAUser2('email',user.email).valueChanges();
             this.email = user.email;
             this.thisUser.subscribe(item=>{
               this.observeOffline = true;
               item.forEach(user=>{
                 //console.dir(user.courses)
                 this.userFb = user;
-                this.list = this.userFb.courses;
-                this.role = this.userFb.status;
-                this.accepted = this.userFb.accepted;
-                this.image = (this.userFb.avatar!=null? this.userFb.avatar.url:"");
+                this.image = (this.userFb.avatar!=null ? this.userFb.avatar.url:"");
                 this.userName = this.userFb.pseudo;
-                this.notification = this.userFb.notification;
-                if(this.notification !== undefined){
-                  this.numberOfNotifications = this.userFb.notification.length;
-                  this.badge.set(this.numberOfNotifications);
-                }
               })
             })
           } else {
-            this.list = []
             this.rootPage = LoginPage;
           }
         },
@@ -182,12 +125,5 @@ export class MyApp {
 
   goTo(page,param){
     this.nav.setRoot(page, param);
-  }
-
-  showNotification(event){
-    let popover = this.popoverCtrl.create(NotificationPopoverPage);
-    popover.present({
-      ev: event
-    });
   }
 }

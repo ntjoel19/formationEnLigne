@@ -13,14 +13,9 @@ import { Base64 } from '@ionic-native/base64';
 
 declare var cordova: any;
 
-import { Course } from '../../models/course.model'
 import { User } from '../../models/user.model';
-
-import { CourseListService } from '../../services/course.service'
-import { NotificationService } from '../../services/notification.service';
 import { User as UserProvider } from '../../provider/user';
 import { DataProvider } from '../../providers/data/data';
-import { CourseProvider } from '../../providers/course/course'
 
 
 import { Observable } from 'rxjs';
@@ -28,6 +23,10 @@ import { Observable } from 'rxjs';
 import $ from "jquery";
 import 'intl-tel-input';
 
+
+/**
+ * @author Ntepp J96n J09l
+ */
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -60,22 +59,13 @@ export class LoginPage {
     name: "",
     firstname: "",
     pseudo : "",
-    birthdate : null,
-    phone : null,
-    status : "",
-    level : 0,
-    notification : null,
-    courses : null,
-    avatar : null,
-    accepted : false,
-    homeworks:null
+    avatar : null
   };
   course : string = "";
 
   //Objects to share with the view
   status : Array<any>
   userList : Observable<User[]>;
-  courseList : Observable<Course[]>;
   imageForView: string = null;
 
   constructor(public navCtrl: NavController, 
@@ -85,7 +75,6 @@ export class LoginPage {
     public menu: MenuController, 
     public alertCtrl: AlertController,
     private auth: AuthService,
-    private courseListService : CourseListService, 
     private userListService: UserListService,
     public userProvider : UserProvider,
     private dataProvider: DataProvider,
@@ -93,12 +82,10 @@ export class LoginPage {
     public events: Events, 
     public FilePath: FilePath,
     private base64: Base64,
-    public notification: NotificationService,
     private camera: Camera, private file: File, 
     private filePath: FilePath,  
     public toastCtrl: ToastController,
      public platform: Platform, 
-     public courseProvider: CourseProvider,
 		fb: FormBuilder,public actionSheetCtrl: ActionSheetController, public renderer: Renderer) {
       
       this.loginForm = fb.group({
@@ -106,30 +93,6 @@ export class LoginPage {
         password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
       });
       this.menu.swipeEnable(false);
-      this.status = [
-          {
-              title: "Nouveaux convertis",
-              number: 1
-          },
-          {
-              title: "Membres de cellules",
-              number : 2
-          },
-          {
-              title: "Responsables de cellules EB",
-              number: 3
-          },
-          {
-              title: "Responsables de CEUs/CCUs",
-              number : 4
-          },
-          {
-              title: "Formateur",
-              number : 5
-          }
-      ]
-      //this.userList = this.userListService.getUserList().valueChanges();
-      this.courseList = this.courseListService.getCourseList().valueChanges();
   }
 
   // for tab to nextslide
@@ -137,7 +100,7 @@ export class LoginPage {
       this.slider.slideTo(index);
       this.content.scrollToTop();
     }
-  // for changeWillSlide
+    // for changeWillSlide
     changeWillSlide($event) {
       this.tabs = $event._snapIndex.toString();
       setTimeout(()=>{
@@ -214,12 +177,8 @@ export class LoginPage {
         
         this.navCtrl.setRoot(HomePage);
         this.events.publish('user:login', credentials);
-        let user = this.userListService.getAnUser('email',credentials.email).valueChanges(['child_added','child_removed']);
-        user.forEach(elem=>{
-          for(let i=0;i<elem.length;i++){
-            this.userProvider.login(credentials.email,credentials.password,elem[i].status,elem[i].pseudo,elem[i].accepted,elem[i].courses,elem[i].notification,elem)
-          }
-        })
+        let user = this.userListService.getAUser2('email',credentials.email).valueChanges();
+        this.userProvider.setEmail(data.email)
         let toast = this.toastCtrl.create({
           message : "Bienvenue! Vous êtes connecté!",
           duration: 3000,
@@ -242,15 +201,6 @@ export class LoginPage {
           toast.present();
         }
       );
-      this.courseListService.getCourseList().valueChanges().subscribe(list=>{
-        list.forEach(course=>{
-          if(this.courseListOff === undefined)
-            this.courseListOff = [course]
-          else  
-            this.courseListOff.push(course);
-        })
-        this.courseProvider.setCourseList(this.courseListOff)
-      })
   }
 
   signup(){
@@ -264,59 +214,13 @@ export class LoginPage {
 			password: this.user.password
     };
     
-    //console.log(this.course)
-    if(this.course !== null)
-    {
-      var c = this.courseListService.getACourse('subtitle',this.course[0])
-      c.forEach(item=>{
-        item.forEach(co=>{
-          this.user.courses = [{
-            title:co.title,
-            descriptImage: co.descriptImage,
-            key: co.key,
-            authorisation : true,
-            subtitle: co.subtitle,
-            teacher : co.teacher,
-            post_date: co.post_date,
-            duration:co.duration,
-            description: co.description,
-            PostedBy:co.PostedBy,
-            numberOfStudents: co.numberOfStudents,
-            chapter:co.chapter
-          }];
-        })
-      })
-    }
-
-    for (let i=1;i<this.course.length;i++){
-        c = this.courseListService.getACourse('subtitle',this.course[i]);
-        c.forEach(item=>{
-        item.forEach(co=>{
-          this.user.courses.push({
-            title:co.title,
-            descriptImage:co.descriptImage,
-            key: co.key,
-            authorisation : true,
-            subtitle: co.subtitle,
-            teacher : co.teacher,
-            post_date: co.post_date,
-            duration:co.duration,
-            description: co.description,
-            PostedBy:co.PostedBy,
-            numberOfStudents: co.numberOfStudents,
-            chapter:co.chapter
-          });
-        })
-      })
-    }
-    
-    //
 		this.auth.doRegister(this.user)
     .then(() => {
       //After signing up, the user is automatically logged in
       this.auth.signInWithEmail(credentials)
       .then(() => {
           this.navCtrl.setRoot(HomePage);
+          this.events.publish('user:login', credentials);
           let toast = this.toastCtrl.create({
             message : "Vous êtes connecté!",
             duration: 3000,
@@ -334,40 +238,25 @@ export class LoginPage {
         }
       );
       //If the selected an  image then upload it
-      this.userListService.addUser(this.user).then(snapshot=>{
+      this.userListService.addUser2(this.user).then(snapshot=>{
         //console.log(snapshot);
+        if(this.image != null)
         this.uploadInformation(this.image.split(",")[1])
       });
-      //The new registered user is added to the database
-      
-      this.viewCtrl.dismiss();
 
       //We will send a notification to admins and mentors that a new user needs to be confirmed
       //let roles = ["Admin","Formateur"]
       //this.notification.sendNotification(roles, '', this.user.email, "Nouvel Utilisateur inscrit");
-
-      this.navCtrl.setRoot(HomePage),
+      //this.viewCtrl.dismiss();
       error => this.loginError = error.message
-
+      
       this.userProvider.login(
         this.user.email,
         this.user.password,
-        this.user.status,
         this.user.pseudo,
-        this.user.accepted,
-        this.user.courses,
-        this.user.notification,
         this.user
       )
-      this.courseListService.getCourseList().valueChanges().subscribe(list=>{
-        list.forEach(course=>{
-          if(this.courseListOff === undefined)
-            this.courseListOff = [course]
-          else  
-            this.courseListOff.push(course);
-        })
-      })
-      this.courseProvider.setCourseList(this.courseListOff)
+
       let toast = this.toastCtrl.create({
         message : "Compte crée avec succès",
         duration: 3000,
@@ -409,9 +298,9 @@ export class LoginPage {
       promise.ref.getDownloadURL().then(url=>{
         //console.dir(url)
         this.downloadURL = url;
-        ref = this.dataProvider.storeInfoToDatabase(promise.metadata,url)
+        ref = this.dataProvider.storeInfoToDatabase2(promise.metadata,url)
         this.user.avatar = ref
-        this.userListService.updateUser(this.user);
+        this.userListService.updateUser2(this.user);
         this.toastCtrl.create({
           message: 'New file added!!',
           duration : 3000

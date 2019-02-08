@@ -10,8 +10,6 @@ declare var cordova: any;
 
 import { Observable } from 'rxjs';
 
-import { Course } from '../../models/course.model'
-import { CourseListService } from '../../services/course.service'
 import { User } from '../../models/user.model';
 import { UserListService } from '../../services/user.service';
 import { User as UserProvider } from '../../provider/user'; 
@@ -44,7 +42,6 @@ export class ProfilePage {
   lastImage;
   numberOfNotifications = 0;
   userList : Observable<User[]>;
-  courseList : Observable<Course[]>;
   meDetail : User = {
     key:'',
     pseudo:'',
@@ -52,23 +49,14 @@ export class ProfilePage {
     email : '',
     chat:null,
     name : '',
-    birthdate : null,
     firstname: '',
-    phone: 0,
-    status : '',
-    level : 0, 
-    accepted : true,
-    notification: null,
-    courses : null,
-    avatar: null,
-    homeworks:null
+    avatar: null
   }
   imageForView: string=null;
   myCourses:any[]
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public courseService: CourseListService,
+    public navParams: NavParams,
     private userService: UserListService, 
     public userProvider : UserProvider,
     public toast: ToastController,
@@ -81,85 +69,15 @@ export class ProfilePage {
     public dataProvider: DataProvider,
     public actionSheetCtrl: ActionSheetController, public camera: Camera, public renderer: Renderer) {
 
-    user.getCourse().then(course=>{
-      this.myCourses = course;
-      if(course != null){
-        for(let i=0;i<course.length;i++){
-          let newC = this.courseService.getACourse('subtitle',course[i].subtitle);
-          newC.forEach(item=>{
-            item.forEach(c=>{
-              let x={img: 'assets/img/02.png', title: '  '+c.subtitle, subtitle: c.numberOfStudents+' learners'}
-              this.list.push(x);
-            })
-          })
-        }
-      }
-    })
-
     user.getUsermail().then(email => {
-      this.userService.getAnUser('email',email).valueChanges().subscribe(next=>{
+      this.userService.getAUser2('email',email).valueChanges().subscribe(next=>{
         next.map(me=>{
           this.meDetail = me;
         })
       });
     })
 
-    //this.list = [{img: 'assets/img/02.png', title: '  Frances  50%', subtitle: '50.4M learners'}, {img: 'assets/img/03.png', title: 'Italian  30%', subtitle: '50.4M learners'}]
-
-    this.userList = this.userService.getUserList().valueChanges();
-
-    //get the course of the current logged user
-    userProvider.getCourse().then(course=>{
-      if(course != null){
-        //we iterate on his course
-        for(let i=0;i<course.length;i++){
-          //for each course, find all users that also subcribe to it.
-          this.userList.forEach(item=>{
-            item.forEach(user=>{
-              if(user.courses !== undefined){
-                user.courses.map(c=>{
-                  if(c.title === course[i].title){
-                    let u={img: 'assets/img/img1.png',name: user.name,email:user.email}
-                    this.friends.push(u);
-                  }
-                })
-              }
-            })
-          })
-        }
-      }
-    })
-    //this.friends = [{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', email: 'Justin Timberlake@yahoo.com'}]
-
-    this.user.getNotification().then(notification =>{
-      this.notification = notification;
-      if(notification !== null){
-        this.numberOfNotifications = this.notification.length;
-      }
-    })
-    //this.notification = [{img: 'assets/img/img1.png', name: 'Jasica Timberlake', text: 'finished lesson 2 in english course'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', text: 'finished lesson 2 in english course'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', text: 'finished lesson 2 in english course'},{img: 'assets/img/img1.png', name: 'Jasica Timberlake', text: 'finished lesson 2 in english courses'}]
-    this.status = [
-      {
-          title: "Nouveaux convertis",
-          number: 1
-      },
-      {
-          title: "Membres de cellules",
-          number : 2
-      },
-      {
-          title: "Responsables de cellules EB",
-          number: 3
-      },
-      {
-          title: "Responsables de CEUs/CCUs",
-          number : 4
-      },
-      {
-          title: "Formateur",
-          number : 5
-      }
-  ]
+    this.userList = this.userService.getUserList2().valueChanges();
   }
   
   // for tab to nextslide
@@ -297,13 +215,13 @@ public pathForImage(img) {
 
   uploadInformation(text){
     var ref=null;
-    this.dataProvider.uploadToStorage(text,'user_images','jpg').then(promise=>{
+    this.dataProvider.uploadToStorage(text,'user_images','.jpg').then(promise=>{
       promise.ref.getDownloadURL().then(url=>{
         //console.dir(url)
         this.downloadURL = url;
-        ref = this.dataProvider.storeInfoToDatabase(promise.metadata,url)
+        ref = this.dataProvider.storeInfoToDatabase2(promise.metadata,url)
         this.meDetail.avatar = ref
-        this.userService.updateUser(this.meDetail);
+        this.userService.updateUser2(this.meDetail);
         this.toastCtrl.create({
           message: 'New file added!!',
           duration : 3000
@@ -348,7 +266,7 @@ public pathForImage(img) {
   }
 
   updateProfile(){
-    this.userService.updateUser(this.meDetail).then(prom=>{
+    this.userService.updateUser2(this.meDetail).then(prom=>{
       
       this.isDisabled = true;
       this.toast.create({

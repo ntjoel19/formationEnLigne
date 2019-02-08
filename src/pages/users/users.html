@@ -1,0 +1,37 @@
+<ion-header >
+  <ion-navbar color="twitter">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-capitalize>New friends</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="list-content">
+  <ion-list class="find-friends-list" padding-horizontal no-margin> 
+    <h3 >Users</h3>
+    <ion-item showWhen="core,windows" color="secondary" style="border-radius: 10px" 
+      (click)="chatWith('ChatPage',item)"
+      *ngFor="let item of list | async ;let i=index" style='border-radius: 10px' no-lines>
+      
+        <ion-avatar item-start *ngIf="item.email !== email">
+          <img *ngIf="item.avatar != null" src="{{item.avatar.url}}">
+          <img *ngIf="item.avatar == null" src="assets/img/user-img.png">
+        </ion-avatar>
+        <h2>{{item.name}}</h2>
+        <p>{{item.email}}</p>
+        <button ion-button clear item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+      
+    </ion-item>
+    <ion-item showWhen="android,ios" color="secondary" style="border-radius: 10px" (click)="chatWith('ChatPage',item)" *ngFor="let item of list | async  ;let i=index" style='border-radius: 10px' no-lines>
+      <ion-avatar item-start>
+        <img *ngIf="item.avatar != null" src="{{item.avatar.url}}">
+        <img *ngIf="item.avatar == null" src="assets/img/user-img.png">
+      </ion-avatar>
+      <h2>{{item.name}}</h2>
+      <p>{{item.email}}</p>
+      <button ion-button clear item-end><ion-icon name="chatbubbles" color="twitter"></ion-icon></button>
+    </ion-item>
+  </ion-list>
+</ion-content>

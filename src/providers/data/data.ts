@@ -2,19 +2,28 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 
+/**
+ * @author Ntepp J96n J09l
+ */
 @Injectable()
 export class DataProvider {
   constructor(
     private db:AngularFireDatabase,
     private afStorage: AngularFireStorage,
+    private fireStore: AngularFirestore
     ) {
     //console.log('Hello DataProvider Provider');
   }
 
   getFiles(){
     let ref = this.db.list('files');
+    return ref.valueChanges()
+  }
+  getFiles2(){
+    let ref = this.fireStore.collection<any>('files');
     return ref.valueChanges()
   }
 
@@ -31,7 +40,8 @@ export class DataProvider {
     //return {'task':task,'ref':this.afStorage.ref(`${folder}/${newName}`)}
   }
 
-  storeInfoToDatabase(metainfo,url){
+  
+  storeInfoToDatabase2(metainfo,url){
     let toSave={
       created: metainfo.timeCreated,
       fullPath: metainfo.fullPath,
@@ -40,35 +50,20 @@ export class DataProvider {
       url: url
     }
 
-    let key = this.db.list('files').push(toSave).key;
-    toSave['key']=key
-    this.db.list('files').update(toSave.key, toSave);
+    this.fireStore.doc<any>(`files/${toSave.fullPath.split('/')[0]}-${toSave.fullPath.split('/')[1]}`).set(toSave);
     return toSave
   }
 
-  deleteFile(file){
+  addFile(file){
+    this.fireStore.doc<any>(`files/${file.fullPath.split('/')[0]}-${file.fullPath.split('/')[1]}`).set(file);
+  }
+
+  deleteFile2(file){
     let key = file.key;
     let storagePath = file.fullPath;
 
-    this.db.list('/files').remove(key)
+    this.fireStore.doc<any>(`files/${file.fullPath.split('/')[0]}-${file.fullPath.split('/')[1]}`).delete()
     return this.afStorage.ref(storagePath).delete();
   }
 
-  
-
-  encodeImageUri(imageUri, objType, callback) {
-    var c = document.createElement('canvas');
-    var ctx = c.getContext("2d");
-    var img = new Image();
-    img.onload = () => {
-      var aux:any = this;
-      c.width = aux.width;
-      c.height = aux.height;
-      ctx.drawImage(img, 0, 0);
-      var dataURL = c.toDataURL(objType);
-      callback(dataURL);
-    };
-    img.src = imageUri;
-    //console.dir(img)
-  }
 }
